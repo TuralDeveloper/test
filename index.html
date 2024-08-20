@@ -8,11 +8,53 @@
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Crystal World</title>
+    <title>Games</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <button onclick="trigger('fortuneWheel')">
+        Trigger =&gt; Fortune Wheel
+      </button>
+    </div>
+
+    <script>
+      const config = {
+        uid: uid,
+        apiToken: "secret-api-token",
+        organizationId: "8ddeb71e-c6e6-4345-8735-b84f8b833be1",
+        // organizationId: '305e31bf-57fb-4a95-9fa7-cf877335e8a6',
+      };
+
+      async function trigger(game) {
+        await testFireTrigger(game);
+      }
+
+      async function testFireTrigger(game) {
+        return fetch(
+          "https://gamixter-backend.ngrok.dev/organization/trigger/test-fire",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: config.apiToken,
+            },
+            body: JSON.stringify({
+              userId: config.uid,
+              organizationId: config.organizationId,
+              game: game,
+            }),
+          }
+        )
+          .then((response) => response.json())
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            console.error("Failed to fire trigger:", error);
+            return null;
+          });
+      }
+    </script>
     <script>
       const data = {
         widgetKey: "c7b29122-ff18-4110-92c7-72230bf36c16",
