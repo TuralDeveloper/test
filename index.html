@@ -1,20 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <script src="https://game-ultimate.com/assets/wdgt.js"></script>
+    <script src="https://game-ultimate.com/assets/widget.js"></script>
 
     <meta
       name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     />
-    <title>Games</title>
+    <title>Gamixter</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        width: 200px;
+        text-align: center;
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+
+      .card button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 0 0 10px 10px;
+        padding: 15px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card button:hover {
+        background-color: #45a049;
+      }
+
+      .card button i {
+        font-size: 20px;
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      @media (max-width: 600px) {
+        .card {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root">
-      <button onclick="trigger('fortuneWheel')">
-        Trigger =&gt; Fortune Wheel
-      </button>
+    <h1>Games and Mechanics</h1>
+    <div class="card-container">
+      <div class="card">
+        <img src="/assets/wheel.jpg" alt="Игра 1" />
+        <button onclick="trigger('fortuneWheel')">
+          <i>Play</i>
+        </button>
+      </div>
+      <div class="card">
+        <img src="/assets/jackpot.jpg" alt="Игра 2" />
+        <button onclick="trigger('slotMachine')">
+          <i>Play</i>
+        </button>
+      </div>
+      <div class="card">
+        <img src="/assets/cases.jpg" alt="Игра 3" />
+        <button onclick="trigger('blackJack')">
+          <i>Play</i>
+        </button>
+      </div>
     </div>
 
     <script>
@@ -22,11 +108,11 @@
         uid: "100-500-Ivan",
         apiToken: "secret-api-token",
         organizationId: "8ddeb71e-c6e6-4345-8735-b84f8b833be1",
-        // organizationId: '305e31bf-57fb-4a95-9fa7-cf877335e8a6',
       };
 
       async function trigger(game) {
-        await testFireTrigger(game);
+        startGame(game);
+        await testFireTrigger("fortuneWheel");
       }
 
       async function testFireTrigger(game) {
@@ -42,19 +128,24 @@
               userId: config.uid,
               organizationId: config.organizationId,
               game: game,
+              metadata: JSON.stringify({
+                game: "ss",
+              }),
             }),
           }
         )
           .then((response) => response.json())
           .then((response) => {
+            console.log("Trigger response:", response);
             return response;
           })
           .catch((error) => {
-            console.error("Failed to fire trigger:", error);
+            console.error("Не удалось выполнить триггер:", error);
             return null;
           });
       }
     </script>
+
     <script>
       const data = {
         widgetKey: "c7b29122-ff18-4110-92c7-72230bf36c16",
@@ -69,11 +160,16 @@
         data.wsUrl,
         data.tokenUrl
       );
+
       widget.init();
 
       widget.ready().then(() => {
-        console.log("Widget is ready to receive games.");
+        console.log("Виджет готов к приему игр.");
       });
+
+      function startGame(game) {
+        widget.triggerGame(game);
+      }
     </script>
   </body>
 </html>
