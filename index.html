@@ -3,7 +3,31 @@
   <head>
     <meta charset="UTF-8" />
 
-    <script src="https://game-ultimate.com/assets/widget.js"></script>
+    <script src="https://game-ultimate.com/assets/widget.js">
+       const data = {
+        widgetKey: "c7b29122-ff18-4110-92c7-72230bf36c16",
+        uid: "100-500-Ivan",
+        wsUrl: "wss://236bc78256f9.ngrok.app/connection/websocket",
+        tokenUrl: "https://gamixter-backend.ngrok.dev/centrifugo/generate-jwt",
+      };
+
+      const widget = new GamixterWidget(
+        data.widgetKey,
+        data.uid,
+        data.wsUrl,
+        data.tokenUrl
+      );
+
+      widget.init();
+
+      widget.ready().then(() => {
+        console.log("Виджет готов к приему игр.");
+      });
+
+      function startGame(game) {
+        widget.triggerGame(game);
+      }
+    </script>
 
     <meta
       name="viewport"
@@ -144,32 +168,6 @@
             console.error("Не удалось выполнить триггер:", error);
             return null;
           });
-      }
-    </script>
-
-    <script async defer>
-      const data = {
-        widgetKey: "c7b29122-ff18-4110-92c7-72230bf36c16",
-        uid: "100-500-Ivan",
-        wsUrl: "wss://236bc78256f9.ngrok.app/connection/websocket",
-        tokenUrl: "https://gamixter-backend.ngrok.dev/centrifugo/generate-jwt",
-      };
-
-      const widget = new GamixterWidget(
-        data.widgetKey,
-        data.uid,
-        data.wsUrl,
-        data.tokenUrl
-      );
-
-      widget.init();
-
-      widget.ready().then(() => {
-        console.log("Виджет готов к приему игр.");
-      });
-
-      function startGame(game) {
-        widget.triggerGame(game);
       }
     </script>
   </body>
