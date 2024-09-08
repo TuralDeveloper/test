@@ -148,7 +148,7 @@
           document.head.appendChild(script);
 
           console.log("Gamixter Widget is ready!");
-
+          this.onGameConfigReceived(ctx.data.data);
           return this;
         }
 
@@ -193,7 +193,7 @@
             const type = ctx.data.type;
             switch (type) {
               case "game_config":
-                self.onGameConfigReceived(ctx.data.data);
+                self.sendMessageToGame(this.gameName);
                 break;
               default:
                 console.log("GamixterWidget received unknown type:", ctx.data);
@@ -275,6 +275,7 @@
           iframe.style.left = "0";
           iframe.style.zIndex = "9999";
           iframe.style.border = "none";
+          iframe.style.display = "none";
           iframe.src = url;
           iframe.loading = "lazy";
           iframe.sandbox = "allow-scripts allow-same-origin";
@@ -283,8 +284,6 @@
 
           iframe.onload = () => {
             this.iframe = iframe;
-
-            this.sendMessageToGame(this.gameName);
           };
 
           this.iframe = iframe;
