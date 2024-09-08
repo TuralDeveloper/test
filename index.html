@@ -290,6 +290,8 @@
         }
 
         sendMessageToGame(data) {
+          console.log(data,'datata');
+
           this.iframe.style.display = "block";
           this.iframe.contentWindow.postMessage(data, "*");
 
