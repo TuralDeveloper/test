@@ -290,7 +290,7 @@
         }
 
         sendMessageToGame(data) {
-          console.log(data,'datata');
+          console.log(data, "datata");
 
           this.iframe.style.display = "block";
           this.iframe.contentWindow.postMessage(data, "*");
@@ -314,6 +314,8 @@
         }
 
         triggerGame(game) {
+          console.log(game, "triggerGame");
+
           this.gameName = game;
         }
       }
