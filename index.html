@@ -314,9 +314,10 @@
         }
 
         triggerGame(game) {
-          console.log(game, "triggerGame");
-
           this.gameName = game;
+
+          this.iframe.style.display = "block";
+          this.iframe.contentWindow.postMessage(this.gameName, "*");
         }
       }
     </script>
